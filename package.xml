@@ -21,9 +21,11 @@
  <run_depend>pandora_slam</run_depend> 
  <run_depend>pandora_vision</run_depend> 
  <run_depend>pandora_data_fusion</run_depend> 
- <run_depend>pandora_control_and_sensors</run_depend> 
+ <run_depend>pandora_control</run_depend> 
+ <run_depend>pandora_sensors</run_depend> 
  <run_depend>pandora_gazebo</run_depend> 
  <run_depend>pandora_models</run_depend> 
+
 
   <export>
 
