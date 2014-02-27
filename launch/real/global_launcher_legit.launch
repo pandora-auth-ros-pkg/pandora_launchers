@@ -1,42 +1,30 @@
 <launch>
-	
-	<!--State Manager -->	
-	<include file="$(find state_manager)/launch/stateManager.launch" /> 
-
-	<!---Diagnostics-->
-	<include file="$(find diagnostics)/launch/computerDiagnostics.launch" />
-
-	<!--Static Transforms-->
-	<include file="$(find pandora_robot)/launch/parameterServerValues/staticTransforms.launch" /> 		
-	
-	<!--Autonomous Mode SLAM Launch -->
-	<include file="$(find slam)/launch/slam_with_wrappers.launch" /> 
   
-	<!--Autonomous Navigation Launch -->
-	<include file="$(find pandora_navigation)/launch/autonomous_navigation.launch" /> 
-	
-	<!--Data fusion -->
-	<include file="$(find data_fusion)/launch/data_fusion.launch" />
-	
-	<!--Controllers & sensors-->
-	<include file="$(find controllers_and_sensors)/launch/u_controller_launch.launch" />
-
-	<!--Main motor control-->
+  <arg name="bag" default="false"/>
+  
+  <!--State Manager -->	
+  <include file="$(find state_manager)/launch/stateManager.launch" /> 
+  
+  <!-- Slam -->
+  <include file="$(find pandora_slam_2d)/launch/pandora_slam_2d_real.launch" />
+  <include file="$(find pandora_pose_estimation)/launch/pose_estimation_5_dof.launch" />
+  
+  <!--Autonomous Navigation Launch -->
+  <include file="$(find pandora_move_base)/launch/move_base.launch" />
+  <include file="$(find pandora_target_selector)/launch/target_selector.launch" />
+  
+  <!--Data fusion -->
+  <include file="$(find pandora_data_fusion_launchers)/launch/data_fusion.launch" />
+  
+    
+  <!--Vision-->  
 <!--
-	<include file="$(find main_motor_control)/launch/main_motors_with_joystick.launch" />
+  <include file="$(find vision)/launch/all_nodes.launch" />
 -->
-	<include file="$(find main_motor_control)/launch/main_motors_autonomous.launch" />
-		
-	<!--Vision-->  
-	<include file="$(find vision)/launch/all_nodes.launch" />			
-	<!--Stereo-->  
-<!--
-	<include file="$(find stereo_ps3)/launch/stereo_hole_finder_node.launch" />				
--->
-		
-	<!--Robotic Arm Launch -->
-	<include file="$(find robotic_arm)/launch/roboticArmLaunch.launch" />
-
-	<node name="bag" type="record" pkg="rosbag" args="/vision/image/compressed /slam/slamMapMsg" /> 
-	
+  
+  <group if="$(arg bag)">
+    <node name="bag" type="record" pkg="rosbag" 
+        args="/vision/image/compressed " />
+  </group>
+  
 </launch>

@@ -23,7 +23,6 @@
  <run_depend>pandora_data_fusion</run_depend> 
  <run_depend>pandora_control</run_depend> 
  <run_depend>pandora_sensors</run_depend> 
- <run_depend>pandora_gazebo</run_depend> 
  <run_depend>pandora_models</run_depend> 
 
 
