@@ -21,9 +21,10 @@
   <!-- Fusion -->
   <include if="$(arg fusion)" file="$(find pandora_data_fusion_launchers)/launch/data_fusion.launch" />
   
-  <!-- Hole Finder -->
+  <!-- Vision -->
   <group if="$(arg vision)">
     <include file="$(find pandora_vision_hole)/launch/hole_find_node.launch" />
+    <include file="$(find pandora_vision_qrcode)/launch/qrcode_node.launch" />
     <rosparam file="$(find pandora_launchers)/simulation/config/vision_hole.yaml" command="load" />
   </group>
 
