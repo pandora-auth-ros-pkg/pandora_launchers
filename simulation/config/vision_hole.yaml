@@ -1,0 +1,5 @@
+kinect:
+  image_width: 640
+  image_height: 480
+  topic_name: /kinect/image
+  camera_frame_id: kinect_link
