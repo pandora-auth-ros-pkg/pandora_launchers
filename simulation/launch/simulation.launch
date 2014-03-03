@@ -25,7 +25,7 @@
   <group if="$(arg vision)">
     <include file="$(find pandora_vision_hole)/launch/hole_find_node.launch" />
     <include file="$(find pandora_vision_qrcode)/launch/qrcode_node.launch" />
-    <rosparam file="$(find pandora_launchers)/simulation/config/vision_hole.yaml" command="load" />
+    <rosparam file="$(find pandora_launchers)/simulation/config/kinect_params.yaml" command="load" />
   </group>
 
 </launch>
