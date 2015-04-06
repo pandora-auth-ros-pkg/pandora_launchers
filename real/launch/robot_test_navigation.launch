@@ -13,6 +13,9 @@
   <include file="$(find pandora_imu_hardware_interface)/launch/imu_hardware_interface_and_controllers.launch" />
 
   <include file="$(find pandora_stabilizer)/launch/stabilizer_control.launch" />
+  <include file="$(find pandora_end_effector_planner)/end_effector_planner/launch/end_effector_planner.launch" />
+  
+  <!-- TODO: Flir launcher with ip -->
 
   <include file="$(find pandora_slam_2d)/launch/pandora_slam_2d_real.launch" />
   <include file="$(find pandora_pose_estimation)/launch/pose_estimation_5_dof.launch" />
@@ -25,5 +28,7 @@
     <arg name="depth_registration" value="true" />
     <arg name="publish_tf" value="false" />
   </include>
+  
+  <!-- <include file="$(find kinect_movement_filter)/launch/kinect_movement_filter.launch" /> -->
 
 </launch>
