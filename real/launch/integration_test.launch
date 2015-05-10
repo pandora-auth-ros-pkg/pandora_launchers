@@ -1,6 +1,7 @@
 <launch>
 
   <arg name="robot" default="woody"/>
+  <arg name="imu_device" default="imu"/>
   
   <!-- Raspberry -->
   <!-- TODO: Flir launcher with ip -->
@@ -16,7 +17,9 @@
     <arg name="robot" value="$(arg robot)" />
   </include>
   <include file="$(find pandora_dynamixel_hardware_interface)/launch/dynamixel_hardware_interface_and_controllers.launch" />
-  <include file="$(find pandora_imu_hardware_interface)/imu_hardware_interface/launch/imu_hardware_interface_and_controllers.launch" />
+  <include file="$(find pandora_imu_hardware_interface)/imu_hardware_interface/launch/imu_hardware_interface_and_controllers.launch" >
+    <arg name="device" value="$(arg imu_device)" />
+  </include>
   <include file="$(find pandora_arm_hardware_interface)/arm_hardware_interface/launch/arm_hardware_interface_and_controllers.launch" />
   <include file="$(find pandora_hardware_tools)/launch/hardware_tools.launch" />
 
