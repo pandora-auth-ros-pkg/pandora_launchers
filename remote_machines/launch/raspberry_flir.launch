@@ -1,0 +1,17 @@
+<launch>
+
+ <machine
+   name="pandoraPi"
+   address="155.207.33.186"
+   user="pandora"
+   password="pandorapi"
+   timeout="30.0"
+   env-loader="/home/pandora/rpi_ws/src/rpi_hardware_interface/scripts/raspberry_env.sh" />
+
+ <!-- Flir Lepton -->
+ <node
+   machine="pandoraPi"
+   name="flir_lepton_hardware_interface"
+   pkg="flir_lepton_hardware_interface"
+   type="flir_lepton_hardware_interface_node" />
+</launch>
