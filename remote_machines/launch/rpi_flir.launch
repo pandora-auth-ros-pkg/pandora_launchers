@@ -2,11 +2,10 @@
 
  <machine
    name="pandoraPi"
-   address="155.207.33.186"
-   user="pandora"
-   password="pandorapi"
+   address="pandoraPi"
+   user="ubuntu"
    timeout="30.0"
-   env-loader="/home/pandora/rpi_ws/src/rpi_hardware_interface/scripts/raspberry_env.sh" />
+   env-loader="~/rpi_ws/src/rpi_hardware_interface/scripts/raspberry_env.sh" />
 
  <!-- Flir Lepton -->
  <node
