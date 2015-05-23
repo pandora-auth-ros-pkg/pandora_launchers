@@ -3,8 +3,8 @@
  <machine
    name="pandoraPi"
    address="pandoraPi"
-   user="ubuntu"
-   timeout="30.0"
+   user="pandora"
+   timeout="20.0"
    env-loader="~/rpi_ws/src/rpi_hardware_interface/scripts/raspberry_env.sh" />
 
  <!-- Flir Lepton -->
