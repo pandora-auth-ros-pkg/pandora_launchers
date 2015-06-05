@@ -1,53 +1,118 @@
 <launch>
 
   <arg name="robot" default="woody"/>
-  <arg name="imu_device" default="ahrs"/>
-  
-  <!-- Raspberry -->
-  <!-- TODO: Flir launcher with ip -->
+  <arg name="description" default="true"/>
+
+  <arg name="state_manager" default="true"/>
+
+  <arg name="motors" default="true"/>
+  <arg name="linear" default="false"/>
+  <arg name="pixy" default="false"/>
+  <arg name="dynamixel" default="true"/>
+  <arg name="imu" default="true"/>
+  <arg name="imu_device" default="trax"/>
+  <arg name="arm" default="true"/>
+  <arg name="hardware_tools" default="true"/>
+
+  <arg name="stabilizer" default="true"/>
+  <arg name="eef" default="true"/>
+
+  <arg name="slam" default="true"/>
+
+  <arg name="navigation" default="true"/>
+
+  <arg name="data_fusion" default="true"/>
+
+  <arg name="xtion" default="false"/>
+  <arg name="vision" default="true"/>
+
+  <arg name="bag" default="false"/>
+
+  <!-- ##################################################################### -->
 
   <!-- Robot description -->
-  <include file="$(find pandora_robots_description)/launch/$(arg robot)/$(arg robot)_description.launch"/>
+  <group if="$(arg description)">
+    <include file="$(find pandora_robots_description)/launch/$(arg robot)/$(arg robot)_description.launch"/>
+  </group>
 
   <!-- State manager -->
-  <include file="$(find state_manager)/launch/stateManager.launch"/>
-  
+  <group if="$(arg state_manager)">
+    <include file="$(find state_manager)/launch/stateManager.launch"/>
+  </group>
+
   <!-- Hardware interface -->
-  <include file="$(find pandora_motor_hardware_interface)/motor_hardware_interface/launch/motor_hardware_interface_and_controllers.launch" >
-    <arg name="robot" value="$(arg robot)" />
-  </include>
-  <include file="$(find pandora_dynamixel_hardware_interface)/launch/dynamixel_hardware_interface_and_controllers.launch" />
-  <include file="$(find pandora_imu_hardware_interface)/imu_hardware_interface/launch/imu_hardware_interface_and_controllers.launch" >
-    <arg name="device" value="$(arg imu_device)" />
-  </include>
-  <!-- <include file="$(find pandora_arm_hardware_interface)/arm_hardware_interface/launch/arm_hardware_interface_and_controllers.launch" /> -->
-  <include file="$(find pandora_hardware_tools)/launch/hardware_tools.launch" />
+  <group if="$(arg arm)">
+    <include file="$(find pandora_arm_hardware_interface)/arm_hardware_interface/launch/arm_hardware_interface_and_controllers.launch" />
+  </group>
+  <group if="$(arg motors)">
+    <include file="$(find pandora_motor_hardware_interface)/motor_hardware_interface/launch/motor_hardware_interface_and_controllers.launch" >
+      <arg name="robot" value="$(arg robot)" />
+    </include>
+  </group>
+  <group if="$(arg linear)">
+    <include file="$(find pandora_linear_motor_hardware_interface)/linear_motor_hardware_interface/launch/linear_motor_hardware_interface_and_controllers.launch" >
+      <arg name="robot" value="$(arg robot)" />
+    </include>
+  </group>
+  <group if="$(arg pixy)">
+    <include file="$(find pandora_pixy_hardware_interface)/pixy_hardware_interface/launch/pixy_hardware_interface_and_controllers.launch" >
+      <arg name="robot" value="$(arg robot)" />
+    </include>
+  </group>
+  <group if="$(arg dynamixel)">
+    <include file="$(find pandora_dynamixel_hardware_interface)/launch/dynamixel_hardware_interface_and_controllers.launch" />
+  </group>
+  <group if="$(arg imu)">
+    <include file="$(find pandora_imu_hardware_interface)/imu_hardware_interface/launch/imu_hardware_interface_and_controllers.launch" >
+      <arg name="device" value="$(arg imu_device)" />
+    </include>
+  </group>
+  <group if="$(arg hardware_tools)">
+    <include file="$(find pandora_hardware_tools)/launch/hardware_tools.launch" />
+  </group>
 
   <!-- Control -->
-  <include file="$(find pandora_stabilizer)/launch/stabilizer_control.launch" />
-  <include file="$(find pandora_end_effector_planner)/end_effector_planner/launch/end_effector_planner.launch" />
+  <group if="$(arg stabilizer)">
+    <include file="$(find pandora_stabilizer)/launch/stabilizer_control.launch" />
+  </group>
+  <group if="$(arg eef)">
+    <include file="$(find pandora_end_effector_controller)/launch/end_effector_controller.launch" />
+  </group>
 
   <!-- Slam -->
-  <include file="$(find pandora_slam_2d)/launch/pandora_slam_2d_real.launch" />
-  <include file="$(find pandora_pose_estimation)/launch/pose_estimation_5_dof.launch" />
+  <group if="$(arg slam)">
+    <include file="$(find pandora_slam_2d)/launch/pandora_slam_2d_real.launch" />
+    <include file="$(find pandora_pose_estimation)/launch/pose_estimation_5_dof.launch" />
+  </group>
 
   <!-- Navigation -->
-  <include file="$(find pandora_move_base)/launch/move_base.launch" />
-  <include file="$(find pandora_exploration)/launch/explorer.launch" />
-  
-  <!-- Vision -->
-  <include file="$(find pandora_vision_launchers)/launch/all_nodes.launch" />
-  
-  <!-- Data fusion -->
-  <!-- <include file="$(find pandora_data_fusion_launchers)/launch/data_fusion.launch" /> -->
+  <group if="$(arg navigation)">
+    <include file="$(find pandora_move_base)/launch/move_base.launch" />
+    <include file="$(find pandora_explorer)/launch/explorer.launch" />
+  </group>
 
-  <!-- Kinect -->
-  <!--
-  <include file="$(find openni2_launch)/launch/openni2.launch">
-    <arg name="camera" value="kinect" />
-    <arg name="depth_registration" value="true" />
-    <arg name="publish_tf" value="false" />
-  </include>
-  -->
-  
+  <!-- Data fusion -->
+  <group if="$(arg data_fusion)">
+    <include file="$(find pandora_data_fusion_launchers)/launch/data_fusion.launch" />
+  </group>
+
+  <!-- Xtion -->
+  <group if="$(arg xtion)">
+    <include file="$(find openni2_launch)/launch/openni2.launch">
+      <arg name="camera" value="kinect" />
+      <arg name="depth_registration" value="true" />
+      <arg name="publish_tf" value="false" />
+    </include>
+  </group>
+
+  <!-- Vision -->
+  <group if="$(arg vision)">
+    <include file="$(find pandora_vision_launchers)/launch/all_nodes.launch" />
+  </group>
+
+  <group if="$(arg bag)">
+    <node name="bag" type="record" pkg="rosbag"
+      args="-b 0 /kinect/rgb/image_raw/compressed /kinect/depth_registered/points /sensors/imu_rpy /tf /laser/scan /slam/map" />
+  </group>
+
 </launch>

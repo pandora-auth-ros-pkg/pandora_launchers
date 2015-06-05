@@ -4,7 +4,7 @@
   <arg name="control" default="true"/>
   <arg name="gazebo" default="false"/>
   <arg name="navigation" default="true"/>
-  <arg name="fusion" default="false"/>
+  <arg name="fusion" default="true"/>
   <arg name="rviz" default="true"/>
 
   <!-- State manager -->
@@ -20,7 +20,7 @@
   <group if="$(arg gazebo)">
     <group if="$(arg control)">
       <include file="$(find pandora_stabilizer)/launch/stabilizer_control.launch" />
-      <include file="$(find pandora_end_effector_planner)/end_effector_planner/launch/end_effector_planner.launch" />
+      <include file="$(find pandora_end_effector_controller)/launch/end_effector_controller.launch" />
       <node name="move_eef_script" pkg="pandora_end_effector_planner" type="move_eef_script.py" args="1" />
     </group>
   </group>
@@ -33,7 +33,7 @@
   <!-- Navigation -->
   <group if="$(arg navigation)">
     <include file="$(find pandora_move_base)/launch/move_base.launch" />
-    <include file="$(find pandora_exploration)/launch/explorer.launch" />
+    <include file="$(find pandora_explorer)/launch/explorer.launch" />
   </group>
 
   <!-- Visualization -->
