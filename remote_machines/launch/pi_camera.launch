@@ -12,7 +12,7 @@
    machine="rpi2"
    name="pi_camera"
    pkg="pi_camera"
-   type="pi_camera_node" />
-
+   type="pi_camera_node.py" />
+  
 
 </launch>
