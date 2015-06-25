@@ -1,13 +1,8 @@
 <launch>
 
- <machine
-   name="rpi2"
-   address="rpi2"
-   user="pandora"
-   timeout="20.0"
-   env-loader="~/pandora_ws/src/rpi_hardware_interface/scripts/raspberry_env.sh" />
+  <include file="$(find pandora_launchers)/remote_machines/machine/rpi2.machine" />
 
- <!-- Flir Lepton -->
+ <!-- Flir Lepton Node -->
  <node
    machine="rpi2"
    name="pi_camera"
