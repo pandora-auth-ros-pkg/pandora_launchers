@@ -2,12 +2,20 @@
 
   <include file="$(find pandora_launchers)/remote_machines/machine/rpi2.machine" />
 
- <!-- Flir Lepton Node -->
- <node
-   machine="rpi2"
-   name="pi_camera"
-   pkg="pi_camera"
-   type="pi_camera_node.py" />
-  
+  <!-- Flir Lepton Node -->
+  <node
+    machine="rpi2"
+    name="pi_camera"
+    pkg="pi_camera"
+    type="pi_camera_node.py" >
+    <param name="width" value="640" />
+    <param name="height" value="480" />
+    <param name="framerate" value="30" />
+    <param name="image_format" value="rgb" />
+    <param name="use_video_port" value="True" />
+    <param name="exposure_mode" value="fixedfps" />
+    <param name="published_topics/image" value="/rpi2/pi_camera/image" />
+
+  </node>
 
 </launch>
