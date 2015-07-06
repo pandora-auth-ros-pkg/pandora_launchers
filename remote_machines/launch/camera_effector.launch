@@ -3,7 +3,9 @@
 
   <include file="$(find pandora_launchers)/remote_machines/machine/rpi2.machine" />
 
-  <!-- Flir Lepton Node -->
+  <arg name="namespace" default="camera_effector"/>
+
+  <!-- Camera Effector Node -->
   <node
     machine="rpi2"
     name="camera_effector"

@@ -3,12 +3,17 @@
 
   <include file="$(find pandora_launchers)/remote_machines/machine/rpi2.machine" />
 
+  <arg name="namespace" default="ledstrip_controller"/>
+
   <!-- Ledstrip Controller -->
   <node
     machine="rpi2"
     name="ledstrip_controller"
     pkg="ledstrip_controller"
-    type="ledstrip_controller.py" >
+    type="ledstrip_controller.py" 
+    launch-prefix=""
+    output="screen"
+  >
     
     <param name="published_topics/ledstrip_state" value="/ledstrip/state" />
     <param name="subscribed_topics/ledstrip_cmd" value="/kinect/ledstrip/state_cmd" />
