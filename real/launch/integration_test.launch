@@ -67,7 +67,7 @@
     <include file="$(find pandora_hardware_tools)/launch/hardware_tools.launch" />
   </group>
   <group if="$(arg rpi)">
-    <include file="$(find pandora_launchers)/remote_machines/launch/rpi_flir.launch" />
+    <include file="$(find pandora_launchers)/remote_machines/launch/rpi2.launch" />
   </group>
 
   <!-- Control -->
