@@ -24,6 +24,8 @@
     file="$(find pandora_launchers)/remote_machines/launch/pi_camera.launch"
     >
     <arg name="rpi2_id" default="rpi2_primary" />
+    <arg name="width" default="640" />
+    <arg name="height" default="480" />
   </include>
 
   <!-- <include if="$(arg pi_camera_front)" -->
