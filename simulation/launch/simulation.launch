@@ -12,7 +12,7 @@
 
   <arg name="slam" default="true"/>
 
-  <arg name="fusion" default="false"/>
+  <arg name="fusion" default="true"/>
 
   <arg name="bag" default="false"/>
 

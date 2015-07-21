@@ -19,7 +19,7 @@
   <arg name="data_fusion" default="true"/>
   <arg name="xtion" default="false"/>
   <arg name="vision" default="true"/>
-  <arg name="audio" default="true"/>
+  <arg name="audio" default="false"/>
   <arg name="bag" default="false"/>
   <arg name="gui" default="true"/>
 
