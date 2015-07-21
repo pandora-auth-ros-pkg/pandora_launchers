@@ -4,7 +4,7 @@
   <include file="$(find pandora_launchers)/remote_machines/machine/rpi2.machine" />
 
   <arg name="namespace" default="camera_effector"/>
-  <arg name="rpi2_id" default="rpi2_secondary" />
+  <arg name="rpi2_id" default="rpi2_primary" />
 
   <!-- Camera Effector Node -->
   <node

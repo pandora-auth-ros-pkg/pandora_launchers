@@ -6,6 +6,7 @@
 
   <!-- set namespace argument -->
   <arg name="namespace" default="linear_actuator" />
+  <arg name="rpi2_id" default="rpi2_primary" />
 
   <rosparam
     command="load"
@@ -14,7 +15,7 @@
 
   <!-- Linear Actuator Hardware Interface Node -->
   <node
-    machine="rpi2"
+    machine="$(arg rpi2_id)"
     name="linear_actuator_hardware_interface"
     pkg="pandora_linear_actuator_hardware_interface"
     type="linear_actuator_hardware_interface_node"
@@ -28,7 +29,7 @@
 
   <!-- Linear Actuator Controller Spawner -->
   <node
-    machine="rpi2"
+    machine="rpi2_primary"
     name="linear_actuator_controller_spawner"
     pkg="controller_manager"
     type="controller_manager"

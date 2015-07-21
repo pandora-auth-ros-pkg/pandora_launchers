@@ -4,10 +4,11 @@
   <include file="$(find pandora_launchers)/remote_machines/machine/rpi2.machine" />
 
   <arg name="namespace" default="ledstrip_controller"/>
+  <arg name="rpi2_id" default="rpi2_primary" />
 
   <!-- Ledstrip Controller -->
   <node
-    machine="rpi2"
+    machine="$(arg rpi2_id)"
     name="ledstrip_controller"
     pkg="ledstrip_controller"
     type="ledstrip_controller.py"
