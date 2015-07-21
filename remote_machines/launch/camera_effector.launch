@@ -4,10 +4,11 @@
   <include file="$(find pandora_launchers)/remote_machines/machine/rpi2.machine" />
 
   <arg name="namespace" default="camera_effector"/>
+  <arg name="rpi2_id" default="rpi2_secondary" />
 
   <!-- Camera Effector Node -->
   <node
-    machine="rpi2"
+    machine="$(arg rpi2_id)"
     name="camera_effector"
     pkg="camera_effector"
     type="camera_effector_node.py" 
