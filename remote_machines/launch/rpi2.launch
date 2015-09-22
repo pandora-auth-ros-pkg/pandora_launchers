@@ -14,22 +14,14 @@
   />
 
 
-  <include if="$(arg pi_camera_rear)"
-    file="$(find pandora_launchers)/remote_machines/launch/pi_camera.launch"
-    >
-    <arg name="rpi2_id" default="rpi2_secondary" />
-    <arg name="camera_id" default="rear" />
-    <arg name="width" default="1280" />
-    <arg name="height" default="720" />
-  </include>
 
   <include if="$(arg pi_camera_front)"
     file="$(find pandora_launchers)/remote_machines/launch/pi_camera.launch"
     >
     <arg name="rpi2_id" default="rpi2_primary" />
     <arg name="camera_id" default="front" />
-    <arg name="width" default="640" />
-    <arg name="height" default="480" />
+    <arg name="width" default="1280" />
+    <arg name="height" default="720" />
   </include>
 
   <!-- <include if="$(arg pi_camera_front)" -->
@@ -38,9 +30,9 @@
     <!-- <arg name="rpi2_id" default="rpi2_primary" /> -->
   <!-- </include> -->
 
-  <!-- <include if="$(arg flir_lepton)" -->
-    <!-- file="$(find pandora_launchers)/remote_machines/launch/flir_lepton_thermal.launch" -->
-  <!-- /> -->
+  <include if="$(arg flir_lepton)"
+    file="$(find pandora_launchers)/remote_machines/launch/flir_lepton_thermal.launch"
+  />
 
   <include if="$(arg ledstrip)"
     file="$(find pandora_launchers)/remote_machines/launch/ledstrip_controller.launch"

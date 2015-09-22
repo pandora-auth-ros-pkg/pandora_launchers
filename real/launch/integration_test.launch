@@ -25,8 +25,8 @@
 
   <!-- RPi Launcher Checklist  -->
   <arg name="camera_effector" default="true" />
-  <arg name="pi_camera" default="true" />
-  <arg name="flir_lepton" default="true" />
+  <arg name="pi_camera_front" default="true" />
+  <arg name="flir_lepton" default="false" />
   <arg name="ledstrip" default="true" />
   <arg name="raspicam" default="false" />
   <arg name="rpi_linear_actuator" default="true" />
@@ -70,7 +70,7 @@
   <group if="$(arg rpi)">
     <include file="$(find pandora_launchers)/remote_machines/launch/rpi2.launch">
       <arg name="camera_effector" value="$(arg camera_effector)" />
-      <arg name="pi_camera" value="$(arg pi_camera)" />
+      <arg name="pi_camera_front" value="$(arg pi_camera_front)" />
       <arg name="flir_lepton" value="$(arg flir_lepton)" />
       <arg name="ledstrip" value="$(arg ledstrip)" />
       <arg name="raspicam" value="$(arg raspicam)" />

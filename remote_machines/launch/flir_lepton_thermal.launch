@@ -9,7 +9,7 @@
 
   <!-- Flir Lepton -->
   <node
-    machine="rpi2"
+    machine="rpi2_primary"
     name="flir_lepton"
     pkg="flir_lepton"
     type="flir_lepton_node"

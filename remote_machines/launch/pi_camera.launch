@@ -11,9 +11,9 @@
   <arg name="width" default="1280" />
   <arg name="height" default="720" />
   <arg name="fps" default="30" />
-  <arg name="camera_id" default="rear" />
+  <arg name="camera_id" default="front" />
   <arg name="optical_frame" default="/$(arg camera_id)_picam_optical_frame" />
-  <arg name="rpi2_id" default="rpi2_secondary" />
+  <arg name="rpi2_id" default="rpi2_primary" />
 
 
   <!-- Primary rpi2 holds front picamera -->

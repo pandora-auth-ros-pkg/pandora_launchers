@@ -29,7 +29,7 @@
 
   <!-- Linear Actuator Controller Spawner -->
   <node
-    machine="rpi2_primary"
+    machine="$(arg rpi2_id)"
     name="linear_actuator_controller_spawner"
     pkg="controller_manager"
     type="controller_manager"
