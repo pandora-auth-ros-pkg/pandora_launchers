@@ -1,0 +1,61 @@
+<launch>
+
+  <!-- arguments -->
+  <arg name="description" default="false" />
+  <arg name="motors" defaults="true" />
+  <arg name="dynamixel" default="true" />
+  <arg name="imu" default="true" />
+  <arg name="laser" default="true" />
+  <arg name="camera" default="false" />
+  <arg name="stabilizer" default="true" />
+  <arg name="state_manager" default="true" />
+  <arg name="slam" default="true" />
+  <arg name="navigation" default="false" />
+  <arg name="data_fusion" default="false" />
+
+  <!-- robot description -->
+  <group if="$(arg description)">
+    <include file="$(find pandora_robots_description)/monstertruck/launch/monstertruck_description.launch" />
+  </group>
+
+  <!-- hardware -->
+  <group if="$(arg motors)">
+    <include file="$(find pandora_monstertruck_hardware_interface)/monstertruck_hardware_interface/launch/monstertruck_hardware_interface_and_controllers.launch" />
+  </group>
+  <group if="$(arg dynamixels)">
+    <include file="$(find pandora_dynamixel_hardware_interface)/launch/dynamixel_laser_stabilizer.launch" />
+  </group>
+  <group if="$(arg imu)">
+    <include file="$(find pandora_imu_hardware_interface)/imu_hardware_interface/launch/imu_hardware_interface_and_controllers.launch" />
+  </group>
+  <group if="$(arg laser)">
+    <include file="$(find pandora_slam_2d)/launch/pandora_hokuyo_04lx.launch" />
+  </group>
+  <group if="$(arg camera)">
+    <!-- TODO(gkouros): include camera node launcher (picam or webcam?) -->
+  </group>
+
+  <!-- common -->
+  <group if="$(arg state_manager)" >
+    <include file="$(find state_manager)/launch/stateManager.launch" />
+  </group>
+
+  <!-- slam -->
+  <group if="$(arg slam)">
+    <include file="$(find pandora_slam_2d)/launch/pandora_slam_2d.launch" />
+    <include file="$(find pandora_pose_estimation)/launch/pose_estimation_5_dof.launch" />
+  </group>
+
+  <!-- navigation -->
+  <group if="$(arg navigation)">
+    <include file="$(find pandora_move_base)/launch/move_base.launch" />
+    <include file="$(find pandora_explorer)/launch/explorer.launch" />
+    <include file="$(find pandora_sensor_coverage)/launch/sensor_coverage.launch" />
+  </group>
+
+  <!-- Data fusion -->
+  <group if="$(arg data_fusion)">
+    <include file="$(find pandora_data_fusion_launchers)/launch/pandora_data_fusion.launch" />
+  </group>
+
+</launch>
