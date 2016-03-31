@@ -2,7 +2,7 @@
 
   <!-- arguments -->
   <arg name="description" default="false" />
-  <arg name="motors" defaults="true" />
+  <arg name="motors" default="true" />
   <arg name="dynamixel" default="true" />
   <arg name="imu" default="true" />
   <arg name="laser" default="true" />
@@ -22,8 +22,10 @@
   <group if="$(arg motors)">
     <include file="$(find pandora_monstertruck_hardware_interface)/monstertruck_hardware_interface/launch/monstertruck_hardware_interface_and_controllers.launch" />
   </group>
-  <group if="$(arg dynamixels)">
-    <include file="$(find pandora_dynamixel_hardware_interface)/launch/dynamixel_laser_stabilizer.launch" />
+  <group if="$(arg dynamixel)">
+    <include file="$(find pandora_dynamixel_hardware_interface)/launch/dynamixel_hardware_interface_and_controllers.launch">
+      <arg name="kinect" value="false" />
+    </include>
   </group>
   <group if="$(arg imu)">
     <include file="$(find pandora_imu_hardware_interface)/imu_hardware_interface/launch/imu_hardware_interface_and_controllers.launch" />
