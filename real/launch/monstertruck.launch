@@ -37,6 +37,11 @@
     <!-- TODO(gkouros): include camera node launcher -->
   </group>
 
+  <!-- launch pandora laser stabilizer node -->
+  <group if="$(arg stabilizer)">
+    <include file="$(find pandora_stabilizer)/launch/stabilizer_control.launch" />
+  </group>
+
   <!-- common -->
   <group if="$(arg state_manager)" >
     <include file="$(find state_manager)/launch/stateManager.launch" />
@@ -56,7 +61,9 @@
   <!-- navigation -->
   <group if="$(arg navigation)">
     <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch" />
-    <include file="$(find pandora_monstertruck_2dnav)/launch/ackermann_to_twist.launch" />
+    <include file="$(find pandora_monstertruck_2dnav)/launch/ackermann_to_twist.launch">
+      <arg name="ackermann_output_topic" value="/ackermann_cmd" />
+    </include>
     <!-- <include file="$(find pandora_explorer)/launch/explorer.launch" /> -->
     <!-- <include file="$(find pandora_sensor_coverage)/launch/sensor_coverage.launch" /> -->
   </group>
