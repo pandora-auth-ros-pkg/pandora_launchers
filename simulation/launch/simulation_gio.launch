@@ -2,20 +2,14 @@
 
   <arg name="robot" default="gio"/>
   <arg name="gazebo" default="false"/>
-
   <arg name="state_manager" default="true"/>
-
   <arg name="stabilizer" default="true"/>
-  <arg name="eef" default="false"/>
-
+  <arg name="eef" default="true"/>
+  <arg name="cmd_vel_mux" default="true"/>
   <arg name="navigation" default="true"/>
-
   <arg name="slam" default="true"/>
-
   <arg name="fusion" default="true"/>
-
   <arg name="bag" default="false"/>
-
   <arg name="rviz" default="true"/>
 
   <!-- If not using gazebo spawn robot_description -->
@@ -32,6 +26,9 @@
   </group>
   <group if="$(arg eef)">
     <include file="$(find pandora_end_effector_controller)/launch/end_effector_controller.launch" />
+  </group>
+  <group if="$(arg cmd_vel_mux)">
+    <include file="$(find pandora_cmd_vel_mux)/launch/cmd_vel_mux.launch" />
   </group>
 
   <!-- Slam -->

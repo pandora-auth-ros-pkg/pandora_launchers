@@ -1,17 +1,12 @@
 <launch>
 
   <arg name="gazebo" default="false"/>
-
   <arg name="state_manager" default="true"/>
-
   <arg name="stabilizer" default="true"/>
-
+  <arg name="cmd_vel_mux" default="true"/>
   <arg name="navigation" default="true"/>
-
   <arg name="slam" default="true"/>
-
   <arg name="fusion" default="true"/>
-
   <arg name="rviz" default="true"/>
 
   <!-- If not using gazebo spawn robot_description -->
@@ -20,14 +15,16 @@
   </group>
 
   <!-- State manager -->
-  <include file="$(find state_manager)/launch/stateManager.launch" />
+  <group if="$(arg state_manager)">
+    <include file="$(find state_manager)/launch/stateManager.launch" />
+  </group>
 
   <!-- Control -->
   <group if="$(arg stabilizer)">
     <include file="$(find pandora_stabilizer)/launch/stabilizer_control.launch" />
   </group>
-  <group if="$(arg eef)">
-    <include file="$(find pandora_end_effector_controller)/launch/end_effector_controller.launch" />
+  <group if="$(arg cmd_vel_mux)">
+    <include file="$(find pandora_cmd_vel_mux)/launch/cmd_vel_mux.launch" />
   </group>
 
   <!-- Slam -->
