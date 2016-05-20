@@ -61,19 +61,13 @@
   <!-- navigation -->
   <group if="$(arg navigation)">
     <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch" />
-    <include file="$(find pandora_monstertruck_2dnav)/launch/ackermann_to_twist.launch">
-      <arg name="ackermann_output_topic" value="/ackermann_cmd" />
-    </include>
-    <include file="$(find pandora_monstertruck_2dnav)/launch/ackermann_to_twist.launch" />
+    <!-- <include file="$(find pandora_monstertruck_2dnav)/launch/ackermann_to_twist.launch"> -->
+      <!-- <arg name="ackermann_output_topic" value="/ackermann_cmd" /> -->
+    <!-- </include> -->
   </group>
 
   <group if="$(arg exploration)">
-    <include file="$(find pandora_monstertruck_2dnav)/launch/exploration.launch">
-  </group>
-
-  <!-- Data fusion -->
-  <group if="$(arg data_fusion)">
-    <include file="$(find pandora_data_fusion_launchers)/launch/pandora_data_fusion.launch" />
+    <include file="$(find pandora_monstertruck_2dnav)/launch/exploration.launch" />
   </group>
 
 </launch>
