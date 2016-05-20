@@ -11,7 +11,7 @@
   <arg name="state_manager" default="true" />
   <arg name="slam" default="true" />
   <arg name="navigation" default="true" />
-  <arg name="data_fusion" default="false" />
+  <arg name="exploration" default="true" />
 
   <!-- robot description -->
   <group if="$(arg description)">
@@ -64,8 +64,11 @@
     <include file="$(find pandora_monstertruck_2dnav)/launch/ackermann_to_twist.launch">
       <arg name="ackermann_output_topic" value="/ackermann_cmd" />
     </include>
-    <!-- <include file="$(find pandora_explorer)/launch/explorer.launch" /> -->
-    <!-- <include file="$(find pandora_sensor_coverage)/launch/sensor_coverage.launch" /> -->
+    <include file="$(find pandora_monstertruck_2dnav)/launch/ackermann_to_twist.launch" />
+  </group>
+
+  <group if="$(arg exploration)">
+    <include file="$(find pandora_monstertruck_2dnav)/launch/exploration.launch">
   </group>
 
   <!-- Data fusion -->
