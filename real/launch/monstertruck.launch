@@ -1,6 +1,7 @@
 <launch>
 
-  <!-- arguments -->
+  <!--############################ Arguments ################################-->
+
   <arg name="description" default="true" />
   <arg name="motors" default="true" />
   <arg name="dynamixel" default="true" />
@@ -12,6 +13,9 @@
   <arg name="slam" default="true" />
   <arg name="navigation" default="true" />
   <arg name="exploration" default="true" />
+  <arg name="state" default="0" />
+
+  <!--######################### Node Launchers ##############################-->
 
   <!-- robot description -->
   <group if="$(arg description)">
@@ -61,13 +65,13 @@
   <!-- navigation -->
   <group if="$(arg navigation)">
     <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch" />
-    <include file="$(find pandora_monstertruck_2dnav)/launch/ackermann_to_twist.launch">
-      <arg name="ackermann_output_topic" value="/ackermann_cmd" />
-    </include>
   </group>
 
   <group if="$(arg exploration)">
     <include file="$(find pandora_monstertruck_2dnav)/launch/exploration.launch" />
   </group>
+
+  <!-- State Changer -->
+  <node name="state_changer" pkg="state_manager" type="state_changer" args="$(arg state)" />
 
 </launch>

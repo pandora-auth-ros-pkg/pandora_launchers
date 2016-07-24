@@ -1,15 +1,34 @@
 <launch>
 
-  <arg name="gazebo" default="false"/>
-  <arg name="state_manager" default="true"/>
-  <arg name="stabilizer" default="true"/>
-  <arg name="cmd_vel_mux" default="true"/>
-  <arg name="navigation" default="true"/>
-  <arg name="slam" default="true"/>
-  <arg name="fusion" default="true"/>
-  <arg name="rviz" default="true"/>
+<!-- ############################## Arguments ###############################-->
+  <arg name="robot" value="monstertruck" />
 
-  <!-- If not using gazebo spawn robot_description -->
+  <arg name="gazebo" default="false" />
+  <arg name="gui" default="false" />
+  <arg name="map" default="testbed" />
+  <arg name="motors" default="true" />
+  <arg name="stabilizer" default="true" />
+  <arg name="state_manager" default="true" />
+  <arg name="slam" default="true" />
+  <arg name="navigation" default="true" />
+  <arg name="local" default="teb" />
+  <arg name="global" default="navfn" />
+  <arg name="pandora_exploration" default="true" />
+  <arg name="rviz" default="true"/>
+  <arg name="state" default="0" />
+
+
+<!-- ############################# Nodes ################################### -->
+
+  <!-- launch gazebo -->
+  <group if="$(arg gazebo)">
+    <include file="$(find pandora_gazebo_worlds)/launch/$(arg map).launch">
+      <arg name="robot" value="$(arg robot)" />
+      <arg name="gui" value="$(arg gui)" />
+    </include>
+  </group>
+
+  <!-- spawn robot_description -->
   <group unless="$(arg gazebo)">
     <include file="$(find pandora_robots_description)/$(arg robot)/launch/$(arg robot)_description.launch"/>
   </group>
@@ -23,32 +42,36 @@
   <group if="$(arg stabilizer)">
     <include file="$(find pandora_stabilizer)/launch/stabilizer_control.launch" />
   </group>
-  <group if="$(arg cmd_vel_mux)">
-    <include file="$(find pandora_cmd_vel_mux)/launch/cmd_vel_mux.launch" />
-  </group>
 
   <!-- Slam -->
   <group if="$(arg slam)">
-    <include file="$(find pandora_slam_2d)/launch/pandora_slam_2d.launch" />
+
+    <include file="$(find pandora_slam_2d)/launch/pandora_slam_2d.launch">
+      <arg name="robot" value="$(arg robot)" />
+    </include>
+
     <include file="$(find pandora_pose_estimation)/launch/pose_estimation_5_dof.launch" />
   </group>
 
   <!-- Navigation -->
   <group if="$(arg navigation)">
-    <include file="$(find pandora_move_base)/launch/move_base.launch" />
-    <include file="$(find pandora_explorer)/launch/explorer.launch" />
-    <include file="$(find pandora_sensor_coverage)/launch/sensor_coverage.launch" />
+    <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch">
+      <arg name="local" default="$(arg local)" />
+      <arg name="global" default="$(arg global)" />
+    </include>
   </group>
 
-  <!-- Fusion -->
-  <group if="$(arg fusion)">
-    <include file="$(find pandora_data_fusion_launchers)/launch/pandora_data_fusion.launch" />
-    <include if="$(arg rviz)" file="$(find pandora_runtime_visualization)/launch/visualization.launch" />
+  <!-- launch pandora_exploration node -->
+  <group if="$(arg pandora_exploration)">
+    <include file="$(find pandora_explorer)/launch/explorer.launch" />
   </group>
 
   <!-- Visualization -->
-  <group unless="$(arg fusion)">
-    <include if="$(arg rviz)" file="$(find pandora_runtime_visualization)/launch/rviz/rviz.launch" />
+  <group if="$(arg rviz)">
+    <include if="$(arg rviz)" file="$(find pandora_monstertruck_2dnav)/launch/rviz.launch" />
   </group>
+
+  <!-- State Changer -->
+  <node name="state_changer" pkg="state_manager" type="state_changer" args="$(arg state)" />
 
 </launch>
