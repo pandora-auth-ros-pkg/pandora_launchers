@@ -78,7 +78,7 @@
   </group>
 
   <group if="$(arg exploration)">
-    <include file="$(find pandora_monstertruck_2dnav)/launch/exploration.launch" />
+    <include file="$(find pandora_monstertruck_2dnav)/launch/pandora_exploration.launch" />
   </group>
 
   <!-- State Changer -->
