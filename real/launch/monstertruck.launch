@@ -7,13 +7,17 @@
   <arg name="dynamixel" default="true" />
   <arg name="imu" default="true" />
   <arg name="laser" default="true" />
-  <arg name="camera" default="false" />
+  <arg name="camera" default="true" />
   <arg name="stabilizer" default="true" />
   <arg name="state_manager" default="true" />
   <arg name="slam" default="true" />
   <arg name="navigation" default="true" />
   <arg name="exploration" default="true" />
   <arg name="state" default="0" />
+
+  <!-- move base arguments -->
+  <arg name="global_planner" default="navfn" />
+  <arg name="local_planner" default="teb" />
 
   <!--######################### Node Launchers ##############################-->
 
@@ -38,7 +42,10 @@
     <include file="$(find pandora_slam_2d)/launch/pandora_hokuyo_04lx.launch" />
   </group>
   <group if="$(arg camera)">
-    <node name="libuvc_camera_node" pkg="libuvc_camera" type="camera_node" output="screen" />
+    <node name="libuvc_camera_node" pkg="libuvc_camera" type="camera_node">
+      <param name="width" value="160" />
+      <param name="height" value="120" />
+    </node>
   </group>
 
   <!-- launch pandora laser stabilizer node -->
@@ -64,7 +71,10 @@
 
   <!-- navigation -->
   <group if="$(arg navigation)">
-    <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch" />
+    <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch">
+      <arg name="global" value="$(arg global_planner)" />
+      <arg name="local" value="$(arg local_planner)" />
+    </include>
   </group>
 
   <group if="$(arg exploration)">
