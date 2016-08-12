@@ -6,6 +6,7 @@
   <arg name="stabilizer" default="true"/>
   <arg name="eef" default="true"/>
   <arg name="cmd_vel_mux" default="true"/>
+  <arg name="cmd_topic" defautl="cmd_vel"/>
   <arg name="navigation" default="true"/>
   <arg name="slam" default="true"/>
   <arg name="fusion" default="true"/>
@@ -39,11 +40,22 @@
 
   <!-- Navigation -->
   <group if="$(arg navigation)">
-    <include file="$(find pandora_move_base)/launch/move_base.launch" />
+    <group if="$(arg cmd_vel_mux)">
+      <include file="$(find pandora_move_base)/launch/move_base.launch">
+        <arg name="cmd_topic" value="navigation/cmd_vel" />
+      </include>
+    </group>
+    <group unless="$(arg cmd_vel_mux)">
+      <include file="$(find pandora_move_base)/launch/move_base.launch">
+        <arg name="cmd_topic" value="$(arg cmd_topic)" />
+      </include>
+    </group>
+  </group>
+
+  <group if="$(arg exploration)">
     <include file="$(find pandora_explorer)/launch/explorer.launch" />
     <include file="$(find pandora_sensor_coverage)/launch/sensor_coverage.launch" />
   </group>
-
   <!-- Fusion -->
   <group if="$(arg fusion)">
     <include file="$(find pandora_data_fusion_launchers)/launch/pandora_data_fusion.launch" />

@@ -6,17 +6,19 @@
   <arg name="gazebo" default="false" />
   <arg name="gui" default="false" />
   <arg name="map" default="testbed" />
-  <arg name="motors" default="true" />
   <arg name="stabilizer" default="true" />
   <arg name="state_manager" default="true" />
   <arg name="slam" default="true" />
+  <arg name="cmd_vel_mux" default="true" />
   <arg name="navigation" default="true" />
-  <arg name="local" default="teb" />
-  <arg name="global" default="navfn" />
   <arg name="pandora_exploration" default="true" />
   <arg name="rviz" default="true"/>
   <arg name="state" default="0" />
 
+  <!-- move base args -->
+  <arg name="local_planner" default="teb" />
+  <arg name="global_planner" default="navfn" />
+  <arg name="cmd_topic" default="cmd_vel" />
 
 <!-- ############################# Nodes ################################### -->
 
@@ -53,12 +55,27 @@
     <include file="$(find pandora_pose_estimation)/launch/pose_estimation_5_dof.launch" />
   </group>
 
+  <!-- cmd_vel multiplexer -->
+  <group if="$(arg cmd_vel_mux)">
+    <include file="$(find pandora_cmd_vel_mux)/launch/cmd_vel_mux.launch" />
+  </group>
+
   <!-- Navigation -->
   <group if="$(arg navigation)">
-    <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch">
-      <arg name="local" default="$(arg local)" />
-      <arg name="global" default="$(arg global)" />
-    </include>
+    <group unless="$(arg cmd_vel_mux)">
+      <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch">
+        <arg name="local" default="$(arg local_planner)" />
+        <arg name="global" default="$(arg global_planner)" />
+        <arg name="cmd_topic" default="$(arg cmd_topic)" />
+      </include>
+    </group>
+    <group if="$(arg cmd_vel_mux)">
+      <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch">
+        <arg name="local" default="$(arg local_planner)" />
+        <arg name="global" default="$(arg global_planner)" />
+        <arg name="cmd_topic" default="navigation/cmd_vel" />
+      </include>
+    </group>
   </group>
 
   <!-- launch pandora_exploration node -->

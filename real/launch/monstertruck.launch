@@ -11,7 +11,9 @@
   <arg name="stabilizer" default="true" />
   <arg name="state_manager" default="true" />
   <arg name="slam" default="true" />
+  <arg name="cmd_vel_mux" default="true" />
   <arg name="navigation" default="true" />
+  <arg name="cmd_topic" default="cmd_vel" />
   <arg name="exploration" default="true" />
   <arg name="state" default="0" />
 
@@ -69,12 +71,28 @@
     <include file="$(find pandora_pose_estimation)/launch/pose_estimation_5_dof.launch" />
   </group>
 
+
+  <!-- launch cmd_vel multiplexer -->
+  <group if="$(arg cmd_vel_mux)">
+    <include file="$(find pandora_cmd_vel_mux)/launch/cmd_vel_mux.launch" />
+  </group>
+
   <!-- navigation -->
   <group if="$(arg navigation)">
-    <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch">
-      <arg name="global" value="$(arg global_planner)" />
-      <arg name="local" value="$(arg local_planner)" />
-    </include>
+    <group unless="$(arg cmd_vel_mux)">
+      <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch">
+        <arg name="cmd_topic" value="$(arg cmd_topic)" />
+        <arg name="global" value="$(arg global_planner)" />
+        <arg name="local" value="$(arg local_planner)" />
+      </include>
+    </group>
+    <group if="$(arg cmd_vel_mux)">
+      <include file="$(find pandora_monstertruck_2dnav)/launch/move_base.launch">
+        <arg name="cmd_topic" value="navigation/cmd_vel" />
+        <arg name="global" value="$(arg global_planner)" />
+        <arg name="local" value="$(arg local_planner)" />
+      </include>
+    </group>
   </group>
 
   <group if="$(arg exploration)">
