@@ -66,7 +66,7 @@
     <group unless="$(arg gmapping)">
       <!-- launch crsm slam  -->
       <include file="$(find pandora_slam_2d)/launch/pandora_slam_2d.launch">
-        <arg name="robot" value="$(arg robot)" />
+        <arg name="robot" value="monstertruck" />
       </include>
       <!-- launch pose estimation node -->
       <include file="$(find pandora_pose_estimation)/launch/pose_estimation_5_dof.launch" />
