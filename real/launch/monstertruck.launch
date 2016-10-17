@@ -11,15 +11,17 @@
   <arg name="stabilizer" default="true" />
   <arg name="state_manager" default="true" />
   <arg name="slam" default="true" />
+  <arg name="gmapping" default="false" />
   <arg name="cmd_vel_mux" default="true" />
   <arg name="navigation" default="true" />
   <arg name="cmd_topic" default="cmd_vel" />
-  <arg name="exploration" default="true" />
+  <arg name="pandora_exploration" default="true" />
   <arg name="state" default="0" />
 
   <!-- move base arguments -->
-  <arg name="global_planner" default="navfn" />
-  <arg name="local_planner" default="teb" />
+  <arg name="local_planner" default="rsband" />
+  <arg name="global_planner" default="global" />
+  <arg name="cmd_topic" default="cmd_vel" />
 
   <!--######################### Node Launchers ##############################-->
 
@@ -60,15 +62,22 @@
     <include file="$(find state_manager)/launch/stateManager.launch" />
   </group>
 
-  <!-- slam -->
+  <!-- Slam -->
   <group if="$(arg slam)">
-    <!-- launch pandora_slam node -->
-    <include file="$(find pandora_slam_2d)/launch/pandora_slam_2d.launch">
-      <arg name="robot" value="monstertruck" />
-    </include>
-
-    <!-- launch pandora_pose_estimation node -->
-    <include file="$(find pandora_pose_estimation)/launch/pose_estimation_5_dof.launch" />
+    <group unless="$(arg gmapping)">
+      <!-- launch crsm slam  -->
+      <include file="$(find pandora_slam_2d)/launch/pandora_slam_2d.launch">
+        <arg name="robot" value="$(arg robot)" />
+      </include>
+      <!-- launch pose estimation node -->
+      <include file="$(find pandora_pose_estimation)/launch/pose_estimation_5_dof.launch" />
+    </group>
+    <group if="$(arg gmapping)">
+      <!-- launch gmapping -->
+      <include file="$(find pandora_monstertruck_2dnav)/launch/gmapping.launch" />
+      <!-- launch base_footprint to base_link transform publishe -->
+      <node pkg="tf" type="static_transform_publisher" name="footprint2base" args="0 0 0.11 0 0 0 base_footprint base_link 100" />
+    </group>
   </group>
 
 
@@ -84,6 +93,8 @@
         <arg name="cmd_topic" value="$(arg cmd_topic)" />
         <arg name="global" value="$(arg global_planner)" />
         <arg name="local" value="$(arg local_planner)" />
+        <arg name="slam" default="$(arg slam)" />
+        <arg name="gmapping" default="$(arg gmapping)" />
       </include>
     </group>
     <group if="$(arg cmd_vel_mux)">
@@ -91,11 +102,14 @@
         <arg name="cmd_topic" value="navigation/cmd_vel" />
         <arg name="global" value="$(arg global_planner)" />
         <arg name="local" value="$(arg local_planner)" />
+        <arg name="slam" default="$(arg slam)" />
+        <arg name="gmapping" default="$(arg gmapping)" />
       </include>
     </group>
   </group>
 
-  <group if="$(arg exploration)">
+  <!-- launch pandora_exploration node -->
+  <group if="$(arg pandora_exploration)">
     <include file="$(find pandora_monstertruck_2dnav)/launch/pandora_exploration.launch" />
   </group>
 

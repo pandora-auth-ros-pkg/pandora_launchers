@@ -17,8 +17,8 @@
   <arg name="state" default="0" />
 
   <!-- move base args -->
-  <arg name="local_planner" default="teb" />
-  <arg name="global_planner" default="navfn" />
+  <arg name="local_planner" default="rsband" />
+  <arg name="global_planner" default="global" />
   <arg name="cmd_topic" default="cmd_vel" />
 
 <!-- ############################# Nodes ################################### -->
@@ -62,7 +62,6 @@
       <!-- launch base_footprint to base_link transform publishe -->
       <node pkg="tf" type="static_transform_publisher" name="footprint2base" args="0 0 0.11 0 0 0 base_footprint base_link 100" />
     </group>
-
   </group>
 
   <!-- cmd_vel multiplexer -->
