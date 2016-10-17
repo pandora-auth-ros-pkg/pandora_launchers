@@ -14,7 +14,6 @@
   <arg name="gmapping" default="false" />
   <arg name="cmd_vel_mux" default="true" />
   <arg name="navigation" default="true" />
-  <arg name="cmd_topic" default="cmd_vel" />
   <arg name="pandora_exploration" default="true" />
   <arg name="state" default="0" />
 
